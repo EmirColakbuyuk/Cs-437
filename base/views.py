@@ -4,7 +4,7 @@ import requests
 import os
 from dotenv import load_dotenv
 
-
+# Load the API key from the .env file
 load_dotenv()
 api_key = os.getenv('RSS_API_KEY')
 
@@ -34,6 +34,7 @@ def latest(request):
     }
 
     return render(request, 'base/latest.html', context)
+
 def index(request):
     return render(request, 'base/index.html')
 
