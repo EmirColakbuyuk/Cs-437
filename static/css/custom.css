@@ -1,0 +1,173 @@
+.tellinks {
+    text-decoration: none !important;
+    color: white !important;
+}
+body {
+    -ms-overflow-style: none; /* for Internet Explorer, Edge*/
+    scrollbar-width: none; /* for Firefox */
+    overflow-y: scroll;
+    background-color: rgba(245, 245, 220, 0.5) !important;
+    font-family: 'Lato', sans-serif !important;
+    /*
+    #DFDFD5
+     */
+}
+
+body::-webkit-scrollbar {
+    display: none; /* for Chrome, Safari, and Opera*/
+}
+
+.freepage{
+    min-height: 57vh;
+}
+
+/*NAVBAR*/
+@media screen and (max-width: 986px) {
+    .navbar {
+        position: fixed !important;
+    }
+    .navmargin{
+    margin-left: 0 !important;
+    }
+
+    .navbar-brands img {
+        width: 120px !important;
+        padding-top: 5px;
+    }
+    .navbar-collapse {
+        margin-top: 2rem;
+        position: fixed !important;
+        top: 50px;
+        left: 0;
+        padding-left: 15px;
+        padding-right: 15px;
+        padding-bottom: 15px;
+        width: 75%;
+        height: 100%;
+        background-color: white;
+        transition: all 600ms !important; /* Bu satırı ekledik */
+        transform: translateX(-0%);
+    }
+    .navbar-toggler:focus{
+        box-shadow: none;
+    }
+
+    .navbar-collapse.collapsing {
+        left: -75%;
+        transition: all 600ms ease-in-out!important;
+        transform: translateX(0%);
+    }
+    .navbar-toggler.collapsed ~ .navbar-collapse {
+        transform: translateX(0%); /* Menüyü kapatma animasyonu */
+    }
+
+    .mobmenubtn {
+        color: white !important;
+        text-align: center;
+    }
+
+    .mobmenubtndiv {
+        border-radius: 8px;
+        border: 1px solid black;
+    }
+}
+
+.navmargin{
+    margin-left: 2.5rem;
+}
+
+.navbar {
+    background-color: indianred !important;
+    width: 100%;
+    z-index: 99;
+    top: 0;
+    height: 55px;
+}
+
+.navbar .navbar-nav .nav-link {
+    color: black !important;
+    font-size: 1.1em;
+}
+
+.navbar .navbar-nav .nav-item.active .nav-link {
+    color: white !important;
+    /*background-color: turquoise !important;*/
+    border-radius: 8px !important;
+}
+
+.nav-link::before {
+    content: '';
+    position: absolute;
+    transition: all 0.5s ease;
+    transform: scale(0);
+}
+
+.nav-link.active::before,
+.nav-link:hover::before {
+    transform: scale(1);
+}
+
+/* FOOTER */
+
+/*- Footer -*/
+.footer {
+    background-color: indianred;
+}
+
+.footerheads {
+    color: black;
+    font-family: 'Poppins', sans-serif;
+}
+
+.footerlist {
+    list-style: none;
+    color: white;
+!important;
+}
+
+.footerlinks {
+    text-decoration: none !important;
+    color: white;
+!important;
+    text-decoration-color: #06003C !important;
+    font-family: 'Poppins', sans-serif;
+}
+
+.footerlinks:hover {
+    color: white;
+}
+
+.footersocialmedialist {
+    /*display: inline;*/
+    list-style: none;
+    justify-content: center;
+    /*margin-left: 25px;*/
+    margin-top: 30px;
+    border-radius: 20px;
+    background-color: white;
+    padding: 0px 6px 3px 6px;
+}
+
+.footersign {
+    color: black;
+}
+
+.footertext {
+    color: white;
+}
+
+.collapse-menu {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 1s ease-out;
+}
+
+.collapse-menu.open {
+    max-height: 500px;
+}
+
+@media (min-width: 700px) {
+    .collapse-menu {
+        max-height: none !important;
+    }
+}

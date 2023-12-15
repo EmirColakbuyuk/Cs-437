@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block css_files %}
+    <!-- If you have any CSS files to include, you can do so here -->
+{% endblock %}
+
+{% block page_tittle %}
+    Son Dakika
+{% endblock %}
+
+{% block content %}
+<div class="container freepage">
+    <h1>Son Dakika</h1>
+    <div class="news-list">
+        {% for item in news_items %}
+            <div class="news-item">
+                <h2><a href="{{ item.link }}">{{ item.title }}</a></h2>
+                <p>{{ item.description }}</p>
+                {% if item.image %}
+                    <img src="{{ item.image.url }}" alt="{{ item.title }}" style="max-width: 100%; height: auto;">
+                {% endif %}
+                <p>Published on: {{ item.time }}</p>
+            </div>
+        {% empty %}
+            <p>No news items found.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
