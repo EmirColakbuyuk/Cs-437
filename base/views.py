@@ -24,7 +24,7 @@ def index(request):
         else:
             news_items = []
     except requests.RequestException as e:
-        # Log the error
+
         logging.error(f"Request error: {str(e)}")
         news_items = []
 
@@ -50,7 +50,7 @@ def latest(request):
         else:
             news_items = []
     except requests.RequestException as e:
-        # Log the error
+
         logging.error(f"Request error: {str(e)}")
         news_items = []
 
@@ -76,7 +76,7 @@ def sport(request):
         else:
             news_items = []
     except requests.RequestException as e:
-        # Log the error
+
         logging.error(f"Request error: {str(e)}")
         news_items = []
 
@@ -101,7 +101,7 @@ def economy(request):
         else:
             news_items = []
     except requests.RequestException as e:
-        # Log the error
+
         logging.error(f"Request error: {str(e)}")
         news_items = []
 
@@ -127,7 +127,7 @@ def magazine(request):
         else:
             news_items = []
     except requests.RequestException as e:
-        # Log the error
+
         logging.error(f"Request error: {str(e)}")
         news_items = []
 
@@ -152,7 +152,7 @@ def search(request):
         else:
             news_items = []
     except requests.RequestException as e:
-        # Log the error
+
         logging.error(f"Request error: {str(e)}")
         news_items = []
 
