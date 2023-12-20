@@ -15,6 +15,27 @@
 
 {% block content %}
     <div class="container freepage">
-        Magazin
+        <div class="row mt-3">
+            {% for item in news_items %}
+                <div class="col-md-4 mb-3">
+                    <a href="{{ item.link }}" class="card-link">
+                        <div class="card">
+                            {% if item.image %}
+                                <img src="{{ item.image.url }}" class="card-img-top" alt="{{ item.title }}">
+                            {% endif %}
+                            <div class="card-body">
+                                <h5 class="card-title" style="color: red">{{ item.title }}</h5>
+                                <p class="card-text">{{ item.description|truncatechars:100 |safe }}</p>
+                                <p class="card-text"><small class="text-muted">{{ item.time }}</small></p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            {% empty %}
+                <div class="col-12">
+                    <p>No news items found.</p>
+                </div>
+            {% endfor %}
+        </div>
     </div>
 {% endblock %}
