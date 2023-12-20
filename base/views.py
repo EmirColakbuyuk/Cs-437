@@ -60,7 +60,6 @@ def latest(request):
 
     return render(request, 'base/latest.html', context)
 
-
 def sport(request):
     api_url = f"https://api.rssapi.net/v1/{api_key}/get"
     params = {
