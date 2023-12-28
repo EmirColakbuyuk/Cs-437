@@ -1,162 +1,96 @@
-import logging
 from django.shortcuts import render
 import requests
 import os
 from dotenv import load_dotenv
-
+import logging
 
 load_dotenv()
 api_key = os.getenv('RSS_API_KEY')
+secure_api_url = "http://localhost:8000/api/secure_api"  
 
-def index(request):
-    api_url = f"https://api.rssapi.net/v1/{api_key}/get"
-    params = {
-        'url': 'https://www.ntv.com.tr/gundem.rss'
-    }
 
+def fetch_data_from_secure_api(url):
     try:
-        response = requests.get(api_url, params=params, timeout=10)
+        response = requests.get(f"{secure_api_url}/?url={url}", timeout=10)
         response.raise_for_status()
         feed_data = response.json()
-
-        if feed_data.get('ok') and 'result' in feed_data:
-            news_items = feed_data['result']['entries']
-        else:
-            news_items = []
+        return feed_data
     except requests.RequestException as e:
+        logging.error(f"Request error to secure API: {str(e)}")
+        return None
 
-        logging.error(f"Request error: {str(e)}")
+
+def index(request):
+    url = 'https://www.ntv.com.tr/gundem.rss'
+    feed_data = fetch_data_from_secure_api(url)
+
+    if feed_data:
+        news_items = feed_data
+    else:
         news_items = []
 
-    context = {
-        'news_items': news_items
-    }
+    context = {'news_items': news_items}
     return render(request, 'base/index.html', context)
 
 
 def latest(request):
-    api_url = f"https://api.rssapi.net/v1/{api_key}/get"
-    params = {
-        'url': 'https://www.ntv.com.tr/son-dakika.rss'
-    }
+    url = 'https://www.ntv.com.tr/son-dakika.rss'
+    feed_data = fetch_data_from_secure_api(url)
 
-    try:
-        response = requests.get(api_url, params=params, timeout=10)
-        response.raise_for_status()
-        feed_data = response.json()
-
-        if feed_data.get('ok') and 'result' in feed_data:
-            news_items = feed_data['result']['entries']
-        else:
-            news_items = []
-    except requests.RequestException as e:
-
-        logging.error(f"Request error: {str(e)}")
+    if feed_data:
+        news_items = feed_data
+    else:
         news_items = []
 
-    context = {
-        'news_items': news_items
-    }
-
+    context = {'news_items': news_items}
     return render(request, 'base/latest.html', context)
 
+
 def sport(request):
-    api_url = f"https://api.rssapi.net/v1/{api_key}/get"
-    params = {
-        'url': 'https://www.ntv.com.tr/spor.rss'
-    }
+    url = 'https://www.ntv.com.tr/spor.rss'
+    feed_data = fetch_data_from_secure_api(url)
 
-    try:
-        response = requests.get(api_url, params=params, timeout=10)
-        response.raise_for_status()
-        feed_data = response.json()
-
-        if feed_data.get('ok') and 'result' in feed_data:
-            news_items = feed_data['result']['entries']
-        else:
-            news_items = []
-    except requests.RequestException as e:
-
-        logging.error(f"Request error: {str(e)}")
+    if feed_data:
+        news_items = feed_data
+    else:
         news_items = []
 
-    context = {
-        'news_items': news_items
-    }
+    context = {'news_items': news_items}
     return render(request, 'base/sport.html', context)
 
+# View to display economy news from the secure API
 def economy(request):
-    api_url = f"https://api.rssapi.net/v1/{api_key}/get"
-    params = {
-        'url': 'https://www.ntv.com.tr/ekonomi.rss'
-    }
+    url = 'https://www.ntv.com.tr/ekonomi.rss'
+    feed_data = fetch_data_from_secure_api(url)
 
-    try:
-        response = requests.get(api_url, params=params, timeout=10)
-        response.raise_for_status()
-        feed_data = response.json()
-
-        if feed_data.get('ok') and 'result' in feed_data:
-            news_items = feed_data['result']['entries']
-        else:
-            news_items = []
-    except requests.RequestException as e:
-
-        logging.error(f"Request error: {str(e)}")
+    if feed_data:
+        news_items = feed_data
+    else:
         news_items = []
 
-    context = {
-        'news_items': news_items
-    }
-
+    context = {'news_items': news_items}
     return render(request, 'base/economy.html', context)
 
 def magazine(request):
-    api_url = f"https://api.rssapi.net/v1/{api_key}/get"
-    params = {
-        'url': 'https://www.ntv.com.tr/yasam.rss'
-    }
+    url = 'https://www.ntv.com.tr/yasam.rss'
+    feed_data = fetch_data_from_secure_api(url)
 
-    try:
-        response = requests.get(api_url, params=params, timeout=10)
-        response.raise_for_status()
-        feed_data = response.json()
-
-        if feed_data.get('ok') and 'result' in feed_data:
-            news_items = feed_data['result']['entries']
-        else:
-            news_items = []
-    except requests.RequestException as e:
-
-        logging.error(f"Request error: {str(e)}")
+    if feed_data:
+        news_items = feed_data
+    else:
         news_items = []
 
-    context = {
-        'news_items': news_items
-    }
+    context = {'news_items': news_items}
     return render(request, 'base/magazine.html', context)
 
 def search(request):
-    api_url = f"https://api.rssapi.net/v1/{api_key}/get"
-    params = {
-        'url': 'https://www.ntv.com.tr/spor.rss'
-    }
+    url = 'https://www.ntv.com.tr/spor.rss'  
+    feed_data = fetch_data_from_secure_api(url)
 
-    try:
-        response = requests.get(api_url, params=params, timeout=10)
-        response.raise_for_status()
-        feed_data = response.json()
-
-        if feed_data.get('ok') and 'result' in feed_data:
-            news_items = feed_data['result']['entries']
-        else:
-            news_items = []
-    except requests.RequestException as e:
-
-        logging.error(f"Request error: {str(e)}")
+    if feed_data:
+        news_items = feed_data
+    else:
         news_items = []
 
-    context = {
-        'news_items': news_items
-    }
+    context = {'news_items': news_items}
     return render(request, 'base/search.html', context)
