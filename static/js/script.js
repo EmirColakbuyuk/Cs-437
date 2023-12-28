@@ -1,8 +1,43 @@
-
-
 $(document).ready(function () {
     initNewsSearch();
 });
+
+
+
+function updateNewsItems(entries) {
+    const newsItemsContainer = $('#news-items-container');
+    newsItemsContainer.empty(); // Clear existing items
+
+    if (entries && Array.isArray(entries)) {
+        entries.forEach(item => {
+            const imageUrl = item.image && item.image.url ? item.image.url : 'default-image-path.jpg'; // Fallback image path
+            const title = item.title || 'No Title';
+            const description = item.description || 'No description available.';
+            const time = item.time || 'No time available';
+
+            const cardHtml = `
+                <div class="col-md-4 mb-3">
+                    <a href="${item.link}" class="card-link">
+                        <div class="card">
+                            <img src="${imageUrl}" class="card-img-top" alt="${title}">
+                            <div class="card-body">
+                                <h5 class="card-title">${title}</h5>
+                                <p class="card-text">${description.slice(0, 100)}...</p>
+                                <p class="card-text"><small class="text-muted">${time}</small></p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            `;
+            newsItemsContainer.append(cardHtml);
+        });
+    } else {
+        console.log('Entries is not an array:', entries);
+        newsItemsContainer.html('<div class="col-12"><p>No news items found.</p></div>');
+    }
+}
+
+
 
 function initNewsSearch() {
     $('#search-button').click(function () {
@@ -12,41 +47,13 @@ function initNewsSearch() {
             fetch(`http://localhost:8000/api/secure_api/?url=${encodedUrl}`)
                 .then(response => response.json())
                 .then(data => {
-                    console.log(data);  // Veriyi konsola yazdır
-                    updateNewsItems(data.entries);
+                    console.log(data); 
+                    updateNewsItems(data); 
+                    
                 })
                 .catch(error => {
                     console.error('Error fetching data:', error.message);
                 });
         }
     });
-}
-
-function updateNewsItems(entries) {
-    const newsItemsContainer = $('#news-items-container');
-    newsItemsContainer.empty(); // Mevcut haber öğelerini temizle
-
-    if (entries) {
-        entries.forEach(item => {
-            // Her haber öğesi için HTML oluşturun
-            const cardHtml = `
-                <div class="col-md-4 mb-3">
-                    <a href="${item.link}" class="card-link">
-                        <div class="card">
-                            ${(item.image && item.image.url) ? `<img src="${item.image.url}" class="card-img-top" alt="${item.title}">` : ''}
-                            <div class="card-body">
-                                <h5 class="card-title" style="color: red">${item.title}</h5>
-                                <p class="card-text">${item.description.slice(0, 100)}...</p>
-                                <p class="card-text"><small class="text-muted">${item.time}</small></p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            `;
-            newsItemsContainer.append(cardHtml);
-        });
-    } else {
-        console.log('Entries is not an array:', data.entries);
-        newsItemsContainer.html('<div class="col-12"><p>No news items found.</p></div>');
-    }
 }
