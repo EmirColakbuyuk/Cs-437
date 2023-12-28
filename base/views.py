@@ -83,14 +83,14 @@ def magazine(request):
     context = {'news_items': news_items}
     return render(request, 'base/magazine.html', context)
 
+
 def search(request):
-    url = 'https://www.ntv.com.tr/spor.rss'  
-    feed_data = fetch_data_from_secure_api(url)
-
-    if feed_data:
-        news_items = feed_data
+    custom_url = request.GET.get("custom_url")  
+    if custom_url:
+        feed_data = fetch_data_from_secure_api(custom_url)  
     else:
-        news_items = []
+        feed_data = None
 
-    context = {'news_items': news_items}
+    context = {'news_items': feed_data}
     return render(request, 'base/search.html', context)
+
