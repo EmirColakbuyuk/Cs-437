@@ -84,13 +84,15 @@ def magazine(request):
     return render(request, 'base/magazine.html', context)
 
 
-def search(request):
-    custom_url = request.GET.get("custom_url")  
+def apiSearch(request):
+    custom_url = request.GET.get("custom_url")
+
     if custom_url:
-        feed_data = fetch_data_from_secure_api(custom_url)  
+
+        feed_data = fetch_data_from_secure_api(custom_url)
     else:
         feed_data = None
 
     context = {'news_items': feed_data}
-    return render(request, 'base/search.html', context)
+    return render(request, 'base/apiSearch.html', context)
 

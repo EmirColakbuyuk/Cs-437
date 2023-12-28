@@ -7,6 +7,6 @@ urlpatterns = [
     path('sport/', views.sport, name="sport"),
     path('economy/', views.economy, name="economy"),
     path('magazine/', views.magazine, name="magazine"),
-    path('search/', views.search, name="search"),
+    path('search/', views.apiSearch, name="search"),
 
 ]
