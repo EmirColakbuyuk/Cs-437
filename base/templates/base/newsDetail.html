@@ -19,6 +19,27 @@
                     <img src="{{ news_detail.image.url }}" alt="{{ news_detail.title }}" class="img-fluid">
                     <p>{{ news_detail.description }}</p>
                     <p><small class="text-muted">{{ news_detail.time }}</small></p>
+
+                    <!-- Yorum Ekleme Formu -->
+                    {% if user.is_authenticated %}
+                        <form method="post">
+                            {% csrf_token %}
+                            <textarea name="comment" rows="4" cols="50" placeholder="Yorumunuzu buraya yazın..."></textarea>
+                            <button type="submit">Yorum Gönder</button>
+                        </form>
+                    {% else %}
+                        <p>Yorum yapmak için <a href="{% url 'login' %}">giriş yapın</a>.</p>
+                    {% endif %}
+
+                    <!-- Yorumları Göster -->
+                    <div>
+                        <h3>Yorumlar</h3>
+                        {% for comment in comments %}
+                            <p>{{ comment.user.username }}: {{ comment.content }}</p>
+                        {% empty %}
+                            <p>Bu haber için henüz yorum yapılmamış.</p>
+                        {% endfor %}
+                    </div>
                 </div>
             {% else %}
                 <div class="col-12">

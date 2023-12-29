@@ -1,8 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 import requests
 import os
 from dotenv import load_dotenv
 import logging
+
+from base.models import Comment
 
 load_dotenv()
 api_key = os.getenv('RSS_API_KEY')
@@ -168,5 +170,16 @@ def newsDetail(request):
     else:
         news_detail = None
 
-    context = {'news_detail': news_detail}
+    if request.method == 'POST':
+        comment_content = request.POST.get('comment')
+        user = request.user
+        Comment.objects.create(news_link=news_link, user=user, content=comment_content)
+        return redirect(f'/newsDetail/?link={news_link}')
+
+
+    comments = Comment.objects.filter(news_link=news_link)
+
+
+
+    context = {'news_detail': news_detail, 'comments': comments,}
     return render(request, 'base/newsDetail.html', context)
