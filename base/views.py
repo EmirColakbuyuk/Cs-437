@@ -1,3 +1,4 @@
+from django.http import HttpResponseForbidden
 from django.shortcuts import render, redirect
 import requests
 import os
@@ -5,6 +6,10 @@ from dotenv import load_dotenv
 import logging
 
 from base.models import Comment
+
+from django.shortcuts import get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
+
 
 load_dotenv()
 api_key = os.getenv('RSS_API_KEY')
@@ -180,6 +185,21 @@ def newsDetail(request):
     comments = Comment.objects.filter(news_link=news_link)
 
 
-
+#
     context = {'news_detail': news_detail, 'comments': comments,}
     return render(request, 'base/newsDetail.html', context)
+
+
+
+@login_required
+def deleteComment(request, comment_id):
+    comment = get_object_or_404(Comment, id=comment_id)
+
+    # Yalnızca yorumu yapan kullanıcı veya admin yorumu silebilir
+    if request.user == comment.user or request.user.is_superuser:
+        comment.delete()
+        return redirect(f'/newsDetail/?link={comment.news_link}')
+
+    else:
+        # Yetkisi olmayan kullanıcılar için hata mesajı göster
+        return HttpResponseForbidden('Bu yorumu silme yetkiniz yok.')

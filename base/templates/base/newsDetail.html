@@ -24,7 +24,8 @@
                     {% if user.is_authenticated %}
                         <form method="post">
                             {% csrf_token %}
-                            <textarea name="comment" rows="4" cols="50" placeholder="Yorumunuzu buraya yazın..."></textarea>
+                            <textarea name="comment" rows="4" cols="50"
+                                      placeholder="Yorumunuzu buraya yazın..."></textarea>
                             <button type="submit">Yorum Gönder</button>
                         </form>
                     {% else %}
@@ -36,6 +37,9 @@
                         <h3>Yorumlar</h3>
                         {% for comment in comments %}
                             <p>{{ comment.user.username }}: {{ comment.content }}</p>
+                            {% if user.is_authenticated and user == comment.user or user.is_superuser %}
+                                <a href="{% url 'deleteComment' comment.id %}">Sil</a>
+                            {% endif %}
                         {% empty %}
                             <p>Bu haber için henüz yorum yapılmamış.</p>
                         {% endfor %}
@@ -43,7 +47,7 @@
                 </div>
             {% else %}
                 <div class="col-12">
-                    <p>Haber bulunamadı.</p>
+                    <p>Haber bulunamadı..</p>
                 </div>
             {% endif %}
         </div>

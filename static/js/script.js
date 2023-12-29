@@ -10,14 +10,15 @@ function updateNewsItems(entries) {
 
     if (entries && Array.isArray(entries)) {
         entries.forEach(item => {
-            const imageUrl = item.image && item.image.url ? item.image.url : 'default-image-path.jpg'; // Fallback image path
+            const imageUrl = item.image && item.image.url ? item.image.url : 'default-image-path.jpg';
             const title = item.title || 'No Title';
             const description = item.description || 'No description available.';
             const time = item.time || 'No time available';
+            const detailUrl = `/newsDetail/?link=${encodeURIComponent(item.link)}`; // URL'i oluştur
 
             const cardHtml = `
                 <div class="col-md-4 mb-3">
-                    <a href="${item.link}" class="card-link">
+                    <a href="${detailUrl}" class="card-link">  <!-- Burada URL kullanılıyor -->
                         <div class="card">
                             <img src="${imageUrl}" class="card-img-top" alt="${title}">
                             <div class="card-body">
@@ -36,6 +37,8 @@ function updateNewsItems(entries) {
         newsItemsContainer.html('<div class="col-12"><p>No news items found.</p></div>');
     }
 }
+
+
 
 
 

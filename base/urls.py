@@ -10,5 +10,8 @@ urlpatterns = [
     path('newsDetail/', views.newsDetail, name="newsDetail"),
     path('apiSearch', views.apiSearch, name="apiSearch"),
     path('titleSearch/', views.titleSearch, name="titleSearch"),
+    path('deleteComment/<int:comment_id>/', views.deleteComment, name='deleteComment'),
+
 
 ]
+#
