@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block css_files %}
+{% endblock %}
+
+{% block page_title %}
+    Search Results
+{% endblock %}
+
+{% block content %}
+    <div class="container freepage">
+        <div class="row mt-3">
+            <!-- Search Bar -->
+            <div class="col-12 mb-3">
+                <form id="search-form">
+                    <div class="input-group">
+                        <input type="text" id="custom-url" class="form-control" placeholder="Enter custom URL">
+                        <div class="input-group-append">
+                            <button id="search-button" class="btn btn-primary" type="button">Search</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div id="news-items-container" class="row">cardHtml</div> <!-- Haber öğeleri buraya eklenecek -->
+        </div>
+    </div>
+
+
+{% endblock %}
