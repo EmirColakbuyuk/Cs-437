@@ -85,11 +85,32 @@
             <li class="nav-item mobmenubtndiv mb-md-3 mt-3 mr-md-3 products {% if request.resolver_match.view_name == 'magazine' %}active{% endif %}">
                 <a class="nav-link mobmenubtn " href="/magazine">Magazin</a>
             </li>
-            
+
             <li class="nav-item mobmenubtndiv mb-md-3 mt-3 mr-md-3 products {% if request.resolver_match.view_name == 'search' %}active{% endif %}">
                 <a class="nav-link mobmenubtn" href="/search">Search</a>
             </li>
-            
+
+
+            <ul class="navbar-nav ml-sm-0 ml-lg-auto mr-md-2 mt-3">
+                {% if  user.is_authenticated %}
+                    <li class="nav-item mr-2">
+                        <a class="btn btn-warning" href="/account/profile">{{ user.username }}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-danger" href="/account/logout">Çıkış</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item mr-2">
+                        <a class="btn btn-secondary" href="/account/login">Giriş</a>
+                        {#                        <a class="nav-link" href="/account/login">Giriş</a>#}
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-info" href="/account/register">Kayıt Ol</a>
+
+                        {#                        <a class="nav-link" href="/account/register">Kayıt Ol</a>#}
+                    </li>
+                {% endif %}
+            </ul>
 
 
         </ul>
@@ -120,8 +141,8 @@
                 <div class=" mobiledownbtn  px-sm-3 px-md-0"
                      onclick="openFooterMenu('reformer-menu')">
                     <h2 class="text-center footerheads my-md-5 my-sm-0 p-3">Hızlı Erişim</h2>
-{#                    <img id="chevronIcon" class="d-sm-none cursor-pointer pr-3" style="filter: contrast(0.5)"#}
-{#                         src="{% static "img/chevron-down.svg" %}" alt="cursor">#}
+                    {#                    <img id="chevronIcon" class="d-sm-none cursor-pointer pr-3" style="filter: contrast(0.5)"#}
+                    {#                         src="{% static "img/chevron-down.svg" %}" alt="cursor">#}
 
 
                 </div>
@@ -135,7 +156,6 @@
                 </ul>
 
             </div>
-
 
 
         </div>
