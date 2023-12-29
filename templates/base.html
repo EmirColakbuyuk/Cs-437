@@ -87,9 +87,15 @@
             </li>
 
             <li class="nav-item mobmenubtndiv mb-md-3 mt-3 mr-md-3 products {% if request.resolver_match.view_name == 'search' %}active{% endif %}">
-                <a class="nav-link mobmenubtn" href="/search">Search</a>
+                <a class="nav-link mobmenubtn" href="/apiSearch">Search</a>
             </li>
 
+
+            <form class="form-inline " action="{% url 'titleSearch' %}" method="GET">
+                <input class="form-control mr-sm-2 mb-sm-2 mb-md-0 mb-lg-0" type="search" placeholder="Search"
+                       aria-label="Search" name="q">
+                <button class="btn btn-outline-secondary my-2 my-sm-0" type="submit">Search</button>
+            </form>
 
             <ul class="navbar-nav ml-sm-0 ml-lg-auto mr-md-2 mt-3">
                 {% if  user.is_authenticated %}

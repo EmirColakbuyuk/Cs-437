@@ -96,3 +96,45 @@ def apiSearch(request):
     context = {'news_items': feed_data}
     return render(request, 'base/apiSearch.html', context)
 
+
+def titleSearch(request):
+    if request.method == 'GET':
+        q = request.GET.get('q', '')  # q parametresini güvenli bir şekilde al
+
+
+        if q:  # Eğer q varsa ve boş değilse
+            # Tüm haber kaynaklarından haberleri çek
+            urls = [
+                'https://www.ntv.com.tr/gundem.rss',
+                'https://www.ntv.com.tr/son-dakika.rss',
+                'https://www.ntv.com.tr/spor.rss',
+                'https://www.ntv.com.tr/ekonomi.rss',
+                'https://www.ntv.com.tr/yasam.rss'
+            ]
+
+            filtered_news_items = []
+
+            for url in urls:
+                feed_data = fetch_data_from_secure_api(url)
+
+
+                if feed_data:
+                    #print(f"{url} adresinden gelen haber başlıkları:")
+
+                    # Sorguya uyan haber başlıklarını filtrele
+                    for item in feed_data:
+                        if 'title' in item:
+                            pass
+                            #print(item['title'])
+                        # if 'title' in item and q.lower() in item['title'].lower():
+                        #     filtered_news_items.append(item)
+                        if 'title' in item and q.lower() in item['title'].lower():
+                            filtered_news_items.append(item)
+                            print(f"Eşleşen başlık: {item['title']}")
+
+            context = {'filtered_news_items': filtered_news_items}
+        else:
+            # q parametresi yoksa veya boşsa, boş bir liste döndür
+            context = {'news_items': []}
+
+        return render(request, 'base/titleSearch.html', context)
