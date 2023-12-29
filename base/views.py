@@ -138,3 +138,35 @@ def titleSearch(request):
             context = {'news_items': []}
 
         return render(request, 'base/titleSearch.html', context)
+
+
+def newsDetail(request):
+    news_link = request.GET.get('link', None)
+
+    if news_link:
+        # Öncelikle tüm haberleri çek
+        urls = [
+            'https://www.ntv.com.tr/gundem.rss',
+            'https://www.ntv.com.tr/son-dakika.rss',
+            'https://www.ntv.com.tr/spor.rss',
+            'https://www.ntv.com.tr/ekonomi.rss',
+            'https://www.ntv.com.tr/yasam.rss'
+        ]
+
+        news_detail = None
+        for url in urls:
+            feed_data = fetch_data_from_secure_api(url)
+            if feed_data:
+                # Haber linkine göre detayları ara
+                for item in feed_data:
+                    if 'link' in item and item['link'] == news_link:
+                        news_detail = item
+                        break
+
+            if news_detail:
+                break
+    else:
+        news_detail = None
+
+    context = {'news_detail': news_detail}
+    return render(request, 'base/newsDetail.html', context)

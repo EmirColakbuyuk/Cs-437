@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block css_files %}
+    <!-- If you have any CSS files to include, you can do so here -->
+{% endblock %}
+
+{% block page_tittle %}
+    Son Dakika
+{% endblock %}
+
+{% block content %}
+    <div class="container freepage">
+        <div class="row mt-3">
+            {% if news_detail %}
+                <div class="col-12">
+                    <h2>{{ news_detail.title }}</h2>
+                    <img src="{{ news_detail.image.url }}" alt="{{ news_detail.title }}" class="img-fluid">
+                    <p>{{ news_detail.description }}</p>
+                    <p><small class="text-muted">{{ news_detail.time }}</small></p>
+                </div>
+            {% else %}
+                <div class="col-12">
+                    <p>Haber bulunamadı.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
