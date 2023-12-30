@@ -75,6 +75,8 @@ celerybeat-schedule
 .venv
 venv/
 ENV/
+437_venv/
+.437_venv
 
 # OS generated files
 .DS_Store
