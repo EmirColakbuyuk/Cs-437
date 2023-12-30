@@ -45,14 +45,16 @@ function updateNewsItems(entries) {
 function initNewsSearch() {
     $('#search-button').click(function () {
         const customUrl = $('#custom-url').val();
+        
         if (customUrl) {
+            $('#user-input-title').html(customUrl);
+
             const encodedUrl = encodeURIComponent(customUrl);
             fetch(`http://localhost:8000/api/secure_api/?url=${encodedUrl}`)
                 .then(response => response.json())
                 .then(data => {
                     console.log(data); 
                     updateNewsItems(data); 
-                    
                 })
                 .catch(error => {
                     console.error('Error fetching data:', error.message);
