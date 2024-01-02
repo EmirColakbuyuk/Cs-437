@@ -2,7 +2,8 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
-
+from django.contrib.auth.decorators import login_required
+from .forms import UserProfileForm
 
 
 def loginView(request):
@@ -90,8 +91,19 @@ def logoutView(request):
     return redirect("index")
 
 
+
+
+
+@login_required
 def profileView(request):
-    return render(request, "account/profile.html")
+    if request.method == 'POST':
+        form = UserProfileForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+    else:
+        form = UserProfileForm(instance=request.user)
+
+    return render(request, "account/profile.html", {'form': form})
 
 
 def changePasswordView(request):
