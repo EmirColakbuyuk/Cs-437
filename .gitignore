@@ -82,3 +82,6 @@ ENV/
 .DS_Store
 
 .env
+
+db.sqlite3
+0001_initial.py

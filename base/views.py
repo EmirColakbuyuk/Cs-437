@@ -4,11 +4,12 @@ import requests
 import os
 from dotenv import load_dotenv
 import logging
-
+import datetime
 from base.models import Comment
-
+from django.db import connection
 from django.shortcuts import get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
+
 
 
 load_dotenv()
@@ -150,8 +151,9 @@ def titleSearch(request):
 def newsDetail(request):
     news_link = request.GET.get('link', None)
 
+    news_detail = None
     if news_link:
-        # Öncelikle tüm haberleri çek
+        # Fetch all news
         urls = [
             'https://www.ntv.com.tr/gundem.rss',
             'https://www.ntv.com.tr/son-dakika.rss',
@@ -160,34 +162,35 @@ def newsDetail(request):
             'https://www.ntv.com.tr/yasam.rss'
         ]
 
-        news_detail = None
         for url in urls:
             feed_data = fetch_data_from_secure_api(url)
             if feed_data:
-                # Haber linkine göre detayları ara
+                # Search for news details by link
                 for item in feed_data:
                     if 'link' in item and item['link'] == news_link:
                         news_detail = item
                         break
-
             if news_detail:
                 break
-    else:
-        news_detail = None
 
     if request.method == 'POST':
         comment_content = request.POST.get('comment')
         user = request.user
-        Comment.objects.create(news_link=news_link, user=user, content=comment_content)
+        current_time = datetime.datetime.now()
+        sql = "INSERT INTO base_comment (news_link, user_id, created_at, content) VALUES ('%s', '%s', '%s', '%s')" % (news_link, user.id, current_time, comment_content)    
+        with connection.cursor() as cursor:
+            cursor.executescript(sql)
+          
+
         return redirect(f'/newsDetail/?link={news_link}')
 
-
+    # Retrieving comments
     comments = Comment.objects.filter(news_link=news_link)
 
-
-#
-    context = {'news_detail': news_detail, 'comments': comments,}
+    # Context for rendering
+    context = {'news_detail': news_detail, 'comments': comments}
     return render(request, 'base/newsDetail.html', context)
+
 
 
 

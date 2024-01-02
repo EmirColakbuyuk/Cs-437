@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 class Comment(models.Model):
     news_link = models.URLField()  # Haber linki
     user = models.ForeignKey(User, on_delete=models.CASCADE)  # Yorum yapan kullanıcı
-    content = models.TextField()  # Yorum içeriği
+    content = models.TextField(null=True, blank=True)  # Yorum içeriği
     created_at = models.DateTimeField(auto_now_add=True)  # Yorumun oluşturulma zamanı
 
     def __str__(self):
