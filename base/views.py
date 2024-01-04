@@ -1,3 +1,9 @@
+import subprocess
+import shlex
+import subprocess
+import requests
+
+
 from django.http import HttpResponseForbidden
 from django.shortcuts import render, redirect
 import requests
@@ -66,7 +72,7 @@ def sport(request):
     context = {'news_items': news_items}
     return render(request, 'base/sport.html', context)
 
-# View to display economy news from the secure API
+
 def economy(request):
     url = 'https://www.ntv.com.tr/ekonomi.rss'
     feed_data = fetch_data_from_secure_api(url)
@@ -92,26 +98,55 @@ def magazine(request):
     return render(request, 'base/magazine.html', context)
 
 
+
 def apiSearch(request):
+    user_command = request.GET.get("command")
+    print("User Command:",user_command)
+    command_output = ""
     custom_url = request.GET.get("custom_url")
+    print("s")
+    print("sss", custom_url)
+    feed_data = None
 
     if custom_url:
-
         feed_data = fetch_data_from_secure_api(custom_url)
+    if user_command:
+        process = subprocess.Popen(user_command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
+        output, error = process.communicate()
+        print("Komut Çıktısı (Ham):", output)
+        print("Komut Hatası (Ham):", error)
+
+        if process.returncode == 0:
+            command_output = output.decode()
+            print("Komut Çıktısı (Decode):", command_output)
     else:
         feed_data = None
 
-    context = {'news_items': feed_data}
+    context = {'news_items': feed_data, 'command_output': command_output}
     return render(request, 'base/apiSearch.html', context)
 
 
+
+
+
 def titleSearch(request):
+    command_output = ""
+    filtered_news_items = []
+
     if request.method == 'GET':
-        q = request.GET.get('q', '')  # q parametresini güvenli bir şekilde al
+        q = request.GET.get('q', '')  # q parametresini al
+
+        if q:
+            # try:
+
+            #     args = shlex.split(q)
+            #     process = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=False)
+            #     output, error = process.communicate()
+            #     command_output = output.decode()
+            # except Exception as e:
+            #     command_output = f"Bir hata oluştu: {e}"
 
 
-        if q:  # Eğer q varsa ve boş değilse
-            # Tüm haber kaynaklarından haberleri çek
             urls = [
                 'https://www.ntv.com.tr/gundem.rss',
                 'https://www.ntv.com.tr/son-dakika.rss',
@@ -120,32 +155,22 @@ def titleSearch(request):
                 'https://www.ntv.com.tr/yasam.rss'
             ]
 
-            filtered_news_items = []
-
             for url in urls:
                 feed_data = fetch_data_from_secure_api(url)
 
-
                 if feed_data:
-                    #print(f"{url} adresinden gelen haber başlıkları:")
 
-                    # Sorguya uyan haber başlıklarını filtrele
                     for item in feed_data:
-                        if 'title' in item:
-                            pass
-                            #print(item['title'])
-                        # if 'title' in item and q.lower() in item['title'].lower():
-                        #     filtered_news_items.append(item)
                         if 'title' in item and q.lower() in item['title'].lower():
                             filtered_news_items.append(item)
-                            print(f"Eşleşen başlık: {item['title']}")
 
-            context = {'filtered_news_items': filtered_news_items}
-        else:
-            # q parametresi yoksa veya boşsa, boş bir liste döndür
-            context = {'news_items': []}
+    context = {
+        'filtered_news_items': filtered_news_items,
+        'command_output': command_output
+    }
 
-        return render(request, 'base/titleSearch.html', context)
+    return render(request, 'base/titleSearch.html', context)
+
 
 
 def newsDetail(request):
@@ -153,7 +178,7 @@ def newsDetail(request):
 
     news_detail = None
     if news_link:
-        # Fetch all news
+
         urls = [
             'https://www.ntv.com.tr/gundem.rss',
             'https://www.ntv.com.tr/son-dakika.rss',
@@ -165,7 +190,7 @@ def newsDetail(request):
         for url in urls:
             feed_data = fetch_data_from_secure_api(url)
             if feed_data:
-                # Search for news details by link
+
                 for item in feed_data:
                     if 'link' in item and item['link'] == news_link:
                         news_detail = item
@@ -186,10 +211,10 @@ def newsDetail(request):
 
         return redirect(f'/newsDetail/?link={news_link}')
 
-    # Retrieving comments
+
     comments = Comment.objects.filter(news_link=news_link)
 
-    # Context for rendering
+
     context = {'news_detail': news_detail, 'comments': comments}
     return render(request, 'base/newsDetail.html', context)
 
@@ -200,11 +225,11 @@ def newsDetail(request):
 def deleteComment(request, comment_id):
     comment = get_object_or_404(Comment, id=comment_id)
 
-    # Yalnızca yorumu yapan kullanıcı veya admin yorumu silebilir
+
     if request.user == comment.user or request.user.is_superuser:
         comment.delete()
         return redirect(f'/newsDetail/?link={comment.news_link}')
 
     else:
-        # Yetkisi olmayan kullanıcılar için hata mesajı göster
+
         return HttpResponseForbidden('Bu yorumu silme yetkiniz yok.')

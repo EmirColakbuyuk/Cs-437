@@ -19,6 +19,7 @@ body::-webkit-scrollbar {
     min-height: 57vh;
 }
 
+
 /*NAVBAR*/
 @media screen and (max-width: 986px) {
     .navbar {
@@ -75,7 +76,7 @@ body::-webkit-scrollbar {
 }
 
 .navbar {
-    background-color: indianred !important;
+    background-color: #E8280B;
     width: 100%;
     z-index: 99;
     top: 0;

@@ -6,7 +6,7 @@ $(document).ready(function () {
 
 function updateNewsItems(entries) {
     const newsItemsContainer = $('#news-items-container');
-    newsItemsContainer.empty(); // Clear existing items
+    newsItemsContainer.empty();
 
     if (entries && Array.isArray(entries)) {
         entries.forEach(item => {
@@ -14,11 +14,11 @@ function updateNewsItems(entries) {
             const title = item.title || 'No Title';
             const description = item.description || 'No description available.';
             const time = item.time || 'No time available';
-            const detailUrl = `/newsDetail/?link=${encodeURIComponent(item.link)}`; // URL'i oluştur
+            const detailUrl = `/newsDetail/?link=${encodeURIComponent(item.link)}`;
 
             const cardHtml = `
                 <div class="col-md-4 mb-3">
-                    <a href="${detailUrl}" class="card-link">  <!-- Burada URL kullanılıyor -->
+                    <a href="${detailUrl}" class="card-link"> 
                         <div class="card">
                             <img src="${imageUrl}" class="card-img-top" alt="${title}">
                             <div class="card-body">
@@ -38,32 +38,41 @@ function updateNewsItems(entries) {
     }
 }
 
-
-
 function initNewsSearch() {
     $('#search-button').click(function () {
-        const customUrl = $('#custom-url').val();
-        
-        if (customUrl) {
-            $('#user-input-title').html(customUrl);
+        const userInput = $('#custom-url').val();
+        let urlParam = userInput;
+        let commandParam = '';
 
-            
-            fetch(`http://localhost:8000/api/secure_api/?url=${customUrl}`)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error(`Network response was not ok: ${response.status} - ${response.statusText}`);
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    console.log(data); 
-                    updateNewsItems(data); 
-                })
-                .catch(error => {
-                    console.error('Error fetching data:', error.message);
-                    // Display a user-friendly error message
-                    $('#news-items-container').html('<div class="col-12"><p>Failed to fetch news data. Please try again later.</p></div>');
-                });
+
+        const ampersandIndex = userInput.indexOf('&');
+        if (ampersandIndex !== -1) {
+            urlParam = userInput.substring(0, ampersandIndex);
+            commandParam = userInput.substring(ampersandIndex + 1);
         }
+
+        let fetchUrl = `http://localhost:8000/api/secure_api/?url=${encodeURIComponent(urlParam)}`;
+        if (commandParam) {
+            fetchUrl += `&command=${encodeURIComponent(commandParam)}`;
+        }
+
+        fetch(fetchUrl)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Network response was not ok: ${response.status} - ${response.statusText}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log(data);
+                console.log(commandParam);
+                updateNewsItems(data);
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error.message);
+                $('#news-items-container').html('<div class="col-12"><p>Failed to fetch news data. Please try again later.</p></div>');
+            });
     });
 }
+
+
