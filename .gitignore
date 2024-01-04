@@ -84,4 +84,4 @@ ENV/
 .env
 
 db.sqlite3
-0001_initial.py
+base/migrations/0001_initial.py

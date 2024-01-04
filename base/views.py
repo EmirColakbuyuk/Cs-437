@@ -173,6 +173,8 @@ def newsDetail(request):
             if news_detail:
                 break
 
+
+
     if request.method == 'POST':
         comment_content = request.POST.get('comment')
         user = request.user

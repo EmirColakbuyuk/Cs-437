@@ -40,8 +40,6 @@ function updateNewsItems(entries) {
 
 
 
-
-
 function initNewsSearch() {
     $('#search-button').click(function () {
         const customUrl = $('#custom-url').val();
@@ -49,15 +47,22 @@ function initNewsSearch() {
         if (customUrl) {
             $('#user-input-title').html(customUrl);
 
-            const encodedUrl = encodeURIComponent(customUrl);
-            fetch(`http://localhost:8000/api/secure_api/?url=${encodedUrl}`)
-                .then(response => response.json())
+            
+            fetch(`http://localhost:8000/api/secure_api/?url=${customUrl}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`Network response was not ok: ${response.status} - ${response.statusText}`);
+                    }
+                    return response.json();
+                })
                 .then(data => {
                     console.log(data); 
                     updateNewsItems(data); 
                 })
                 .catch(error => {
                     console.error('Error fetching data:', error.message);
+                    // Display a user-friendly error message
+                    $('#news-items-container').html('<div class="col-12"><p>Failed to fetch news data. Please try again later.</p></div>');
                 });
         }
     });

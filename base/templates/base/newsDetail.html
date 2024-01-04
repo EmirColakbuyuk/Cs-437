@@ -23,7 +23,6 @@
                     <!-- Yorum Ekleme Formu -->
                     {% if user.is_authenticated %}
                         <form method="post">
-                            {% csrf_token %}
                             <textarea name="comment" rows="4" cols="50"
                                       placeholder="Yorumunuzu buraya yazın..."></textarea>
                             <button type="submit">Yorum Gönder</button>

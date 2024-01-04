@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from .forms import UserProfileForm
-
+from django.contrib.auth import update_session_auth_hash
 
 def loginView(request):
     if request.user.is_authenticated:
@@ -112,10 +112,9 @@ def changePasswordView(request):
         if form.is_valid():
             user = form.save()
             update_session_auth_hash(request, user)
-            #messages.success(request, "Parola değiştirildi.")
             return redirect("changePassword")
         else:
             return render(request, 'account/changePassword.html', {"form": form})
 
     form = PasswordChangeForm(request.user)
-    return render(request, 'account/changePassword.html', {"form": form})
+    return render(request, 'account/changePassword.html', {"form": form}) 
