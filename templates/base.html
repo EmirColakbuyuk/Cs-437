@@ -57,67 +57,77 @@
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-dark " id="navigation">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+            aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <img height="40" src="{% static "img/news.jpeg" %}" alt="menü ikonu">
+    </button>
+    <a class="navbar-brand" style="color: white; margin-left: 200px;" href="/">Sabancı News</a>
+
+
+    <ul class="navbar-nav ml-sm-0 ml-lg-auto mr-md-2 mt-3">
+        {% if  user.is_authenticated %}
+            <li class="nav-item mr-2">
+                <a class="btn btn-success" href="/account/profile">{{ user.username }}</a>
+            </li>
+            <li class="nav-item">
+                <a class="btn btn-danger" href="/account/logout">Çıkış</a>
+            </li>
+        {% else %}
+            <li class="nav-item mr-2">
+                <a class="btn btn-secondary" style="background-color: red;" href="/account/login">Giriş</a>
+                {#                        <a class="nav-link" style="color: white;" href="/account/login">Giriş</a>#}
+            </li>
+            <li class="nav-item">
+                <a class="btn btn-info" style=" margin-right: 200px; background-color: gray;" href="/account/register">Kayıt
+                    Ol</a>
+
+                {#                        <a class="nav-link" href="/account/register">Kayıt Ol</a>#}
+            </li>
+        {% endif %}
+    </ul>
+
+
+    </ul>
+    </div>
+</nav>
+<nav class="navbar_alt navbar-expand-lg navbar-dark " id="navigation">
     {#    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"#}
     {#            aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">#}
-    {#        <img height="40" src="{% static "img/icons8-menu.svg" %}" alt="menü ikonu">#}
+    {#        <img height="0" src="{% static "img/icons8-menu.svg" %}" alt="menü ikonu">#}
     {#    </button>#}
-    <a class="navbar-brand" style="color: white" href="/">Sabancı News</a>
+
     {#    <a class="navbar-brands" href="/"><img class=" navbar-brands" width="100"#}
     {#                                                   src="{% static "img/otopratiksitelogo.png" %}"></a>#}
+
     <div class="collapse navbar-collapse " id="navbarNavDropdown">
         <ul class="navbar-nav w-100 h-100 navmargin">
             <li class="nav-item mobmenubtndiv mb-md-3  mt-3 mr-md-3 home {% if request.resolver_match.view_name == 'index' or request.resolver_match.view_name == 'root-redirect' %}active{% endif %}">
-                <a class="nav-link mobmenubtn " href="/">Ana Sayfa</a>
+                <a class="nav-link mobmenubtn " style="color:black; margin-left: 170px;" href="/">Ana Sayfa</a>
             </li>
 
             <li class="nav-item mobmenubtndiv mb-md-3 mt-3 mr-md-3 products {% if request.resolver_match.view_name == 'latest' %}active{% endif %}">
-                <a class="nav-link mobmenubtn " href="/latest">Son Dakika</a>
+                <a class="nav-link mobmenubtn " style="color:black;" href="/latest">Son Dakika</a>
             </li>
 
             <li class="nav-item mobmenubtndiv mb-md-3 mt-3 mr-md-3 products {% if request.resolver_match.view_name == 'sport' %}active{% endif %}">
-                <a class="nav-link mobmenubtn " href="/sport">Spor</a>
+                <a class="nav-link mobmenubtn " style="color:black;" href="/sport">Spor</a>
             </li>
 
             <li class="nav-item mobmenubtndiv mb-md-3 mt-3 mr-md-3 products {% if request.resolver_match.view_name == 'economy' %}active{% endif %}">
-                <a class="nav-link mobmenubtn " href="/economy">Ekonomi</a>
+                <a class="nav-link mobmenubtn " style="color:black;" href="/economy">Ekonomi</a>
             </li>
 
             <li class="nav-item mobmenubtndiv mb-md-3 mt-3 mr-md-3 products {% if request.resolver_match.view_name == 'magazine' %}active{% endif %}">
-                <a class="nav-link mobmenubtn " href="/magazine">Magazin</a>
-            </li>
-
-            <li class="nav-item mobmenubtndiv mb-md-3 mt-3 mr-md-3 products {% if request.resolver_match.view_name == 'search' %}active{% endif %}">
-                <a class="nav-link mobmenubtn" href="/apiSearch">Search</a>
+                <a class="nav-link mobmenubtn " style="color:black;" href="/magazine">Magazin</a>
             </li>
 
 
             <form class="form-inline " action="{% url 'titleSearch' %}" method="GET">
-                <input class="form-control mr-sm-2 mb-sm-2 mb-md-0 mb-lg-0" type="search" placeholder="Search"
+                <input class="form-control mr-sm-2 mb-sm-2 mb-md-0 mb-lg-0" style="margin-left: 360px;" type="search"
+                       placeholder="Search"
                        aria-label="Search" name="q">
                 <button class="btn btn-outline-secondary my-2 my-sm-0" type="submit">Search</button>
             </form>
-
-            <ul class="navbar-nav ml-sm-0 ml-lg-auto mr-md-2 mt-3">
-                {% if  user.is_authenticated %}
-                    <li class="nav-item mr-2">
-                        <a class="btn btn-warning" href="/account/profile">{{ user.username }}</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="btn btn-danger" href="/account/logout">Çıkış</a>
-                    </li>
-                {% else %}
-                    <li class="nav-item mr-2">
-                        <a class="btn btn-secondary" href="/account/login">Giriş</a>
-                        {#                        <a class="nav-link" href="/account/login">Giriş</a>#}
-                    </li>
-                    <li class="nav-item">
-                        <a class="btn btn-info" href="/account/register">Kayıt Ol</a>
-
-                        {#                        <a class="nav-link" href="/account/register">Kayıt Ol</a>#}
-                    </li>
-                {% endif %}
-            </ul>
-
 
         </ul>
     </div>
@@ -131,43 +141,58 @@
     <div class="container">
         <div class="row border-bottoms">
 
-            <div class="col-md-6 col-sm-12  p-0 ">
-                <h2 class="py-md-3 py-3 pl-md-3 pl-3 text-center footerheads my-md-5 mt-5 mb-1 mobiledownbtn">
-                    Sabancı News</h2>
+            <div class="container">
+                <div class="left-side">
+                    <div class="d-flex align-items-center">
+                        <img height="40" src="{% static 'img/log.jpg' %}" alt="menü ikonu">
 
-                <p class="text-center footertext px-3">Sabancı Üniversitesi, 1999 yılında İstanbul'da kurulmuş bir vakıf
-                    üniversitesidir. Kurulma kararı 1994 yılında Hacı Ömer Sabancı Vakfı önderliğinde Sabancı topluluğu
-                    tarafından kurulma kararı alınmış Ekim 1999'da Türkiye'de liberal bilimler tarzı eğitim veren ilk
-                    yükseköğretim kurumu olarak öğretime başlamıştır.</p>
+                        <h2 class="py-md-3 py-3 pl-md-3 pl-3 text-center footerheads my-md-5 mt-5 mb-1 mobiledownbtn"
+                            style="color: rgb(220, 35, 35); font-size: large;">
+                            Sabancı News
+                        </h2>
+                    </div>
 
-                <p class="text-center footertext px-3">Orta Mahalle, Üniversite Caddesi No:27 Tuzla, 34956 İstanbul<br>
-                    <a href="tel:+902164839000" class="tellinks">02164839000</a></p>
-            </div>
-            <div class="col-md-6 col-sm-12 p-0">
-                <div class=" mobiledownbtn  px-sm-3 px-md-0"
-                     onclick="openFooterMenu('reformer-menu')">
-                    <h2 class="text-center footerheads my-md-5 my-sm-0 p-3">Hızlı Erişim</h2>
-                    {#                    <img id="chevronIcon" class="d-sm-none cursor-pointer pr-3" style="filter: contrast(0.5)"#}
-                    {#                         src="{% static "img/chevron-down.svg" %}" alt="cursor">#}
+                    <p class="text-left footertext px-3" style="color: gray;">
+                        Sabancı Üniversitesi, 1999 yılında İstanbul'da kurulmuş bir vakıf üniversitesidir. Kurulma
+                        kararı 1994 yılında Hacı Ömer Sabancı Vakfı önderliğinde Sabancı topluluğu tarafından kurulma
+                        kararı alınmış Ekim 1999'da Türkiye'de liberal bilimler tarzı eğitim veren ilk yükseköğretim
+                        kurumu olarak öğretime başlamıştır.
+                    </p>
 
-
+                    <p class="text-left footertext px-3" style="color: gray;">
+                        Orta Mahalle, Üniversite Caddesi No:27 Tuzla, 34956 İstanbul<br>
+                        <a href="tel:+902164839000" style="color:gray;" class="tellinks">02164839000</a>
+                    </p>
                 </div>
+                <div class="right-side" style="justify-content: center;">
+                    <div class="col-md-6 col-sm-12 p-0">
+                        <div class=" mobiledownbtn  px-sm-3 px-md-0"
+                             onclick="openFooterMenu('reformer-menu')">
+                            <h2 class="text-center footerheads my-md-5 my-sm-0 p-3"
+                                style="font-size: large;color: white;">Hızlı Erişim</h2>
+                            {#                    <img id="chevronIcon" class="d-sm-none cursor-pointer pr-3" style="filter: contrast(0.5)"#}
+                            {#                         src="{% static "img/chevron-down.svg" %}" alt="cursor">#}
 
-                <ul class="px-3 text-center collapse-menu" id="reformer-menu">
-                    <li class="footerlist mb-3 "><a href="/" class="footerlinks">Anasayfa</a></li>
-                    <li class="footerlist mb-3 "><a href="/latest" class="footerlinks">Son Dakika</a></li>
-                    <li class="footerlist mb-3"><a href="/sport" class="footerlinks">Spor</a></li>
-                    <li class="footerlist mb-3 "><a href="/economy" class="footerlinks ">Ekonomi</a></li>
-                    <li class="footerlist mb-3 "><a href="/magazine" class="footerlinks">Magazin</a></li>
-                </ul>
 
+                        </div>
+
+                        <ul class="px-3 text-center collapse-menu" id="reformer-menu">
+                            <li class="footerlist mb-3 "><a href="/" class="footerlinks">Anasayfa</a></li>
+                            <li class="footerlist mb-3 "><a href="/latest" class="footerlinks">Son Dakika</a></li>
+                            <li class="footerlist mb-3"><a href="/sport" class="footerlinks">Spor</a></li>
+                            <li class="footerlist mb-3 "><a href="/economy" class="footerlinks ">Ekonomi</a></li>
+                            <li class="footerlist mb-3 "><a href="/magazine" class="footerlinks">Magazin</a></li>
+                        </ul>
+
+                    </div>
+                </div>
             </div>
 
 
         </div>
         <div class="row">
             <div class="col text-center mt-md-1 mt-3">
-                <p class="footersign">© Sabancı News</p>
+                <p class="footersign" style="justify-content: center;">© Sabancı News</p>
             </div>
 
         </div>

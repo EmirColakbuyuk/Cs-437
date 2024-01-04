@@ -19,11 +19,11 @@ body::-webkit-scrollbar {
     min-height: 57vh;
 }
 
-
 /*NAVBAR*/
 @media screen and (max-width: 986px) {
     .navbar {
         position: fixed !important;
+
     }
     .navmargin{
     margin-left: 0 !important;
@@ -32,6 +32,7 @@ body::-webkit-scrollbar {
     .navbar-brands img {
         width: 120px !important;
         padding-top: 5px;
+
     }
     .navbar-collapse {
         margin-top: 2rem;
@@ -43,7 +44,7 @@ body::-webkit-scrollbar {
         padding-bottom: 15px;
         width: 75%;
         height: 100%;
-        background-color: white;
+        background-color: rgb(222, 210, 210);
         transition: all 600ms !important;
         transform: translateX(-0%);
     }
@@ -61,7 +62,7 @@ body::-webkit-scrollbar {
     }
 
     .mobmenubtn {
-        color: white !important;
+        color: rgb(244, 236, 236) !important;
         text-align: center;
     }
 
@@ -76,22 +77,30 @@ body::-webkit-scrollbar {
 }
 
 .navbar {
-    background-color: #E8280B;
+    background-color: rgb(227, 14, 14) !important;
     width: 100%;
     z-index: 99;
     top: 0;
-    height: 55px;
+    height: 75px;
+}
+.navbar_alt {
+    background-color: rgb(244, 239, 239) !important;
+    width: 100%;
+    z-index: 99;
+    top: 0;
+    height: 75px;
 }
 
 .navbar .navbar-nav .nav-link {
-    color: black !important;
+    color: red !important;
     font-size: 1.1em;
 }
 
 .navbar .navbar-nav .nav-item.active .nav-link {
-    color: white !important;
+    color: rgb(140, 69, 69) !important;
     /*background-color: turquoise !important;*/
     border-radius: 8px !important;
+    margin-bottom: 100px;
 }
 
 .nav-link::before {
@@ -109,7 +118,7 @@ body::-webkit-scrollbar {
 /* FOOTER */
 
 .footer {
-    background-color: indianred;
+    background-color: rgb(29, 28, 28);
 }
 
 .footerheads {
@@ -163,12 +172,40 @@ body::-webkit-scrollbar {
 .collapse-menu.open {
     max-height: 500px;
 }
+.container {
+    display: flex;
+}
+
+.left-side {
+    flex: 1;
+    padding: 20px; /* İsteğe bağlı, sol bölümün kenar boşlukları */
+}
+
+.right-side {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.footersign {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+
+
+
 
 @media (min-width: 700px) {
     .collapse-menu {
         max-height: none !important;
     }
 }
+
+
+
 
 /* News */
 
