@@ -2,6 +2,12 @@
     text-decoration: none !important;
     color: white !important;
 }
+
+.links {
+    text-decoration: none !important;
+    color: red !important;
+}
+
 body {
     -ms-overflow-style: none;
     scrollbar-width: none;
@@ -18,6 +24,13 @@ body::-webkit-scrollbar {
 .freepage{
     min-height: 57vh;
 }
+
+
+.form-inline {
+    margin-left: auto;
+    padding-right: 0!important;
+}
+
 
 /*NAVBAR*/
 @media screen and (max-width: 986px) {
@@ -72,36 +85,38 @@ body::-webkit-scrollbar {
     }
 }
 
-.navmargin{
-    margin-left: 2.5rem;
-}
+
+
 
 .navbar {
-    background-color: rgb(227, 14, 14) !important;
-    width: 100%;
-    z-index: 99;
-    top: 0;
-    height: 75px;
-}
-.navbar_alt {
-    background-color: rgb(244, 239, 239) !important;
+    background-color: rgb(29, 28, 28);
     width: 100%;
     z-index: 99;
     top: 0;
     height: 75px;
 }
 
-.navbar .navbar-nav .nav-link {
-    color: red !important;
+
+.navbar_alt {
+    background-color: rgb(227, 14, 14)  !important;
+    width: 100%;
+    z-index: 99;
+    top: 0;
+    height: 75px;
+}
+
+
+.navbar_alt .navbar-nav .nav-link {
+    color: black !important;
     font-size: 1.1em;
 }
 
-.navbar .navbar-nav .nav-item.active .nav-link {
-    color: rgb(140, 69, 69) !important;
+.navbar_alt .navbar-nav .nav-item.active .nav-link {
+    color: white !important;
     /*background-color: turquoise !important;*/
     border-radius: 8px !important;
-    margin-bottom: 100px;
 }
+
 
 .nav-link::before {
     content: '';
@@ -122,7 +137,6 @@ body::-webkit-scrollbar {
 }
 
 .footerheads {
-    color: black;
     font-family: 'Poppins', sans-serif;
 }
 
@@ -160,7 +174,7 @@ body::-webkit-scrollbar {
 }
 
 .footertext {
-    color: white;
+    color: white !important;
 }
 
 .collapse-menu {
@@ -172,9 +186,7 @@ body::-webkit-scrollbar {
 .collapse-menu.open {
     max-height: 500px;
 }
-.container {
-    display: flex;
-}
+
 
 .left-side {
     flex: 1;
