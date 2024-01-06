@@ -14,10 +14,18 @@
 
         <div class="row mt-3">
 
+            <h2>En Çok Aranan 5 Url</h2>
+            <ul>
+                {% for item in top_ranked_items %}
+                    <li>{{ item.url }} | Counter: {{ item.counter }}</li>
+                {% endfor %}
+            </ul>
+
             <div class="col-12 mb-3">
                 <form id="search-form">
                     <div class="input-group">
-                        <input type="text" id="custom-url" class="form-control" placeholder="Haberlerini Çekmek İstediğiniz Url'yi Giriniz!">
+                        <input type="text" id="custom-url" class="form-control"
+                               placeholder="Haberlerini Çekmek İstediğiniz Url'yi Giriniz!">
                         <div class="input-group-append">
                             <button id="search-button" class="btn btn-dark" type="button">Search</button>
                         </div>

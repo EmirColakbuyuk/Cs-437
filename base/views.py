@@ -11,6 +11,8 @@ import os
 from dotenv import load_dotenv
 import logging
 import datetime
+
+from api.models import TopRanked
 from base.models import Comment
 from django.db import connection
 from django.shortcuts import get_object_or_404, redirect
@@ -23,9 +25,21 @@ api_key = os.getenv('RSS_API_KEY')
 secure_api_url = "http://localhost:8000/api/secure_api"  
 
 
-def fetch_data_from_secure_api(url):
+def fetch_data_from_secure_api(url, from_view=False):
+    # try:
+    #     response = requests.get(f"{secure_api_url}/?url={url}", timeout=10)
+    #     response.raise_for_status()
+    #     feed_data = response.json()
+    #     return feed_data
+    # except requests.RequestException as e:
+    #     logging.error(f"Request error to secure API: {str(e)}")
+    #     return None
+
     try:
-        response = requests.get(f"{secure_api_url}/?url={url}", timeout=10)
+        params = {'url': url}
+        if from_view:
+            params['from_view'] = 'true'
+        response = requests.get(f"{secure_api_url}/", params=params, timeout=10)
         response.raise_for_status()
         feed_data = response.json()
         return feed_data
@@ -33,10 +47,9 @@ def fetch_data_from_secure_api(url):
         logging.error(f"Request error to secure API: {str(e)}")
         return None
 
-
 def index(request):
     url = 'https://www.ntv.com.tr/gundem.rss'
-    feed_data = fetch_data_from_secure_api(url)
+    feed_data = fetch_data_from_secure_api(url, from_view=True)
 
     if feed_data:
         news_items = feed_data
@@ -49,7 +62,7 @@ def index(request):
 
 def latest(request):
     url = 'https://www.ntv.com.tr/son-dakika.rss'
-    feed_data = fetch_data_from_secure_api(url)
+    feed_data = fetch_data_from_secure_api(url, from_view=True)
 
     if feed_data:
         news_items = feed_data
@@ -62,7 +75,7 @@ def latest(request):
 
 def sport(request):
     url = 'https://www.ntv.com.tr/spor.rss'
-    feed_data = fetch_data_from_secure_api(url)
+    feed_data = fetch_data_from_secure_api(url, from_view=True)
 
     if feed_data:
         news_items = feed_data
@@ -75,7 +88,7 @@ def sport(request):
 
 def economy(request):
     url = 'https://www.ntv.com.tr/ekonomi.rss'
-    feed_data = fetch_data_from_secure_api(url)
+    feed_data = fetch_data_from_secure_api(url, from_view=True)
 
     if feed_data:
         news_items = feed_data
@@ -87,7 +100,7 @@ def economy(request):
 
 def magazine(request):
     url = 'https://www.ntv.com.tr/yasam.rss'
-    feed_data = fetch_data_from_secure_api(url)
+    feed_data = fetch_data_from_secure_api(url, from_view=True)
 
     if feed_data:
         news_items = feed_data
@@ -100,30 +113,10 @@ def magazine(request):
 
 
 def apiSearch(request):
-    #bak
-    user_command = request.GET.get("command")
-    print("User Command:",user_command)
-    command_output = ""
-    custom_url = request.GET.get("custom_url")
-    print("s")
-    print("sss", custom_url)
-    feed_data = None
+    top_ranked_items = TopRanked.objects.order_by('-counter')[:5]
+    context = {'top_ranked_items': top_ranked_items}
 
-    if custom_url:
-        feed_data = fetch_data_from_secure_api(custom_url)
-    if user_command:
-        process = subprocess.Popen(user_command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
-        output, error = process.communicate()
-        print("Komut Çıktısı (Ham):", output)
-        print("Komut Hatası (Ham):", error)
 
-        if process.returncode == 0:
-            command_output = output.decode()
-            print("Komut Çıktısı (Decode):", command_output)
-    else:
-        feed_data = None
-
-    context = {'news_items': feed_data, 'command_output': command_output}
     return render(request, 'base/apiSearch.html', context)
 
 
@@ -157,7 +150,7 @@ def titleSearch(request):
             ]
 
             for url in urls:
-                feed_data = fetch_data_from_secure_api(url)
+                feed_data = fetch_data_from_secure_api(url, from_view=True)
 
                 if feed_data:
 
@@ -189,7 +182,7 @@ def newsDetail(request):
         ]
 
         for url in urls:
-            feed_data = fetch_data_from_secure_api(url)
+            feed_data = fetch_data_from_secure_api(url, from_view=True)
             if feed_data:
 
                 for item in feed_data:
