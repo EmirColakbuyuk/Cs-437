@@ -100,6 +100,7 @@ def magazine(request):
 
 
 def apiSearch(request):
+    #bak
     user_command = request.GET.get("command")
     print("User Command:",user_command)
     command_output = ""
