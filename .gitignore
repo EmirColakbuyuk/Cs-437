@@ -85,3 +85,5 @@ ENV/
 
 db.sqlite3
 base/migrations/0001_initial.py
+
+requests.log
