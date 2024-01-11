@@ -190,7 +190,7 @@ body::-webkit-scrollbar {
 
 .left-side {
     flex: 1;
-    padding: 20px; /* İsteğe bağlı, sol bölümün kenar boşlukları */
+    padding: 20px;
 }
 
 .right-side {

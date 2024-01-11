@@ -10,7 +10,7 @@
 
 
 {% block page_tittle %}
-    Anasayfa
+    Gündem
 {% endblock %}
 
 {% block content %}
@@ -20,13 +20,13 @@
                 <div class="col-md-4 mb-3">
                     <a href="{% url 'newsDetail' %}?link={{ item.link }}" class="card-link">
                         <div class="card">
-                            {% if item.image %}
-                                <img src="{{ item.image.url }}" class="card-img-top" alt="{{ item.title }}">
+                            {% if item.image_url %}
+                                <img src="{{ item.image_url }}" class="card-img-top" alt="{{ item.title }}">
                             {% endif %}
                             <div class="card-body">
                                 <h5 class="card-title" style="color: red">{{ item.title }}</h5>
                                 <p class="card-text">{{ item.description|truncatechars:100 |safe }}</p>
-                                <p class="card-text"><small class="text-muted">{{ item.time }}</small></p>
+                                <p class="card-text"><small class="text-muted">{{ item.published_time }}</small></p>
                             </div>
                         </div>
                     </a>

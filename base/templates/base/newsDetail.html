@@ -3,11 +3,11 @@
 {% load static %}
 
 {% block css_files %}
-    <!-- If you have any CSS files to include, you can do so here -->
+
 {% endblock %}
 
 {% block page_tittle %}
-    Son Dakika
+    Haber Detayı
 {% endblock %}
 
 {% block content %}
@@ -17,10 +17,10 @@
                 <div class="col-12">
                     <h1 class="text-center font-weight-bold">{{ news_detail.title }}</h1>
                     <p><small class="text-muted">{{ news_detail.time }}</small></p>
-                    <img src="{{ news_detail.image.url }}" alt="{{ news_detail.title }}" class="img-fluid">
+                    <img src="{{ news_detail.image_url }}" alt="{{ news_detail.title }}" class="img-fluid">
                     <p style="padding-top: 30px;">{{ news_detail.description }}</p>
 
-                    <!-- Yorum Ekleme Formu -->
+
                     {% if user.is_authenticated %}
                         <form method="post">
                             <textarea name="comment" rows="6" cols="50"
@@ -36,7 +36,7 @@
                     {% endif %}
 
 
-                    <!-- Yorumları Göster -->
+
                     <div>
 
                         {% for comment in comments %}

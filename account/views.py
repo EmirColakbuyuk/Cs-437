@@ -6,6 +6,10 @@ from django.contrib.auth.decorators import login_required
 from .forms import UserProfileForm
 from django.contrib.auth import update_session_auth_hash
 
+
+#AUTHENTICATION VIEW
+
+#LOGIN VIEW FOR USER
 def loginView(request):
     if request.user.is_authenticated:
         return redirect("index")
@@ -31,6 +35,7 @@ def loginView(request):
     else:
         return render(request, "account/login.html")
 
+#REGISTER VIEW FOR USER
 def registerView(request):
     if request.method == "POST":
         username = request.POST.get("username", None)
@@ -44,7 +49,7 @@ def registerView(request):
         # if username and email and first_name and last_name is not None:
         # pass
         # else:
-        # return render(request, "account/register.html", {"error": "Please annın nikahı"})
+        # return render(request, "account/register.html", {"error": "Please "})
 
         if password == re_password:
             if User.objects.filter(username=username).exists():
@@ -63,7 +68,7 @@ def registerView(request):
                     try:
                         user.full_clean()
                     except Exception as e:
-                        return render(request, "account/register.html", {"error": e.messages})#"there cannot be" koyulabılır 2z yerıne
+                        return render(request, "account/register.html", {"error": e.messages})
                     user = User.objects.create_user(
                         username=username,
                         email=email,
@@ -93,7 +98,7 @@ def logoutView(request):
 
 
 
-
+#PROFILE VIEW for each user, it uses login_required which is contain security for brute force
 @login_required
 def profileView(request):
     if request.method == 'POST':

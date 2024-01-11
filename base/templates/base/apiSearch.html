@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block page_title %}
-    Search Results
+    Api Arama
 {% endblock %}
 
 {% block content %}
@@ -17,7 +17,7 @@
             <h2>En Çok Aranan 5 Url</h2>
             <ul>
                 {% for item in top_ranked_items %}
-                    <li>{{ item.url }} | Counter: {{ item.counter }}</li>
+                    <li>{{ item.url }} | Bu url aranma sayısı: {{ item.counter }}</li>
                 {% endfor %}
             </ul>
 

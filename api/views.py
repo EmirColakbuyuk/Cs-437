@@ -12,11 +12,15 @@ from api.models import TopRanked
 load_dotenv()
 api_key = os.getenv('RSS_API_KEY')
 
+
+# RSS API PARSER
+
 def update_top_ranked(url):
     top_ranked_obj, created = TopRanked.objects.get_or_create(url=url)
     top_ranked_obj.counter += 1
     top_ranked_obj.save()
 
+#VULNERABLE PART
 class PingAPI(APIView):
 
     def get(self, request, format=None):
@@ -26,10 +30,16 @@ class PingAPI(APIView):
             return JsonResponse({"error": "No URL provided"}, status=400)
 
         try:
-            # Vulnerable part: directly injecting user input into the system command
+            # That code under that line is vulnerable for COMMAND LINE INJECTION, it took parameter from apiSearch which
+            # is target url, the system took that parameter which assume is rss for the custom news. Then using ping -c 4
+            # command for ns lookup. In that way, system checks is that rss's TCP/IP adress for is it exist
+            # However there is an vulnerability for command line injection for input at the subproccess part
             command = f"ping -c 4 {target_url}"
-            print(target_url)
-            output = subprocess.getoutput(command)  # Executes the command and gets the output
+            # ping -c 4 python
+            # print(target_url)
+            # print("commands: ",command)
+            output = subprocess.getoutput(command)
+            # output = subprocess.run(command, shell=True, text=True, capture_output=True)
             return JsonResponse({"result": output}, status=200)
 
         except Exception as e:  # Catching a broader range of exceptions for safety
@@ -39,11 +49,11 @@ class PingAPI(APIView):
 class SecureAPI(APIView):
     renderer_classes = [renderers.JSONRenderer]
 
-    #http://127.0.0.1:8000/api/secure_api/?url=https://www.ntv.com.tr/gundem.rss
+    # http://127.0.0.1:8000/api/secure_api/?url=https://www.ntv.com.tr/gundem.rss
 
     def get(self, request, format=None):
 
-        #feed_url = request.query_params.get('url')
+        # feed_url = request.query_params.get('url')
 
         feed_url = request.query_params.get('url')
         from_view = request.query_params.get('from_view') == 'true'
@@ -51,13 +61,10 @@ class SecureAPI(APIView):
         if feed_url and not from_view:
             update_top_ranked(feed_url)
 
-
         exampurl = feed_url
-        print("feedurl: ", feed_url)
+        # print("feedurl: ", feed_url)
         if not feed_url:
             return Response({"error": "No URL provided"}, status=status.HTTP_400_BAD_REQUEST)
-
-
 
         api_url = f"https://api.rssapi.net/v1/{api_key}/get"
         params = {
