@@ -74,7 +74,8 @@ async function initNewsSearch() {
             $('#user-input-title').html(fullUrl);
 
             try {
-
+                //Server tries to ping corresponding url to see if its active, if so retrieves data,
+                //with url, user can try bypass the url and can inject COMMAND INJECTION
                 const domainForPing = extractDomain(fullUrl);
                 console.log('Domain for ping:', domainForPing);
                 console.log('Full URL:', fullUrl);
@@ -102,4 +103,3 @@ async function initNewsSearch() {
         }
     });
 }
-//s

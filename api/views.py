@@ -42,7 +42,7 @@ class PingAPI(APIView):
             # output = subprocess.run(command, shell=True, text=True, capture_output=True)
             return JsonResponse({"result": output}, status=200)
 
-        except Exception as e:  # Catching a broader range of exceptions for safety
+        except Exception as e:
             return JsonResponse({"error": str(e)}, status=500)
 
 
@@ -84,3 +84,4 @@ class SecureAPI(APIView):
 
         except requests.RequestException as e:
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
