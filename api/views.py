@@ -9,6 +9,10 @@ import subprocess
 
 from api.models import TopRanked
 
+import logging
+logger = logging.getLogger('base.middleware')
+
+
 load_dotenv()
 api_key = os.getenv('RSS_API_KEY')
 
@@ -34,11 +38,14 @@ class PingAPI(APIView):
             # is target url, the system took that parameter which assume is rss for the custom news. Then using ping -c 4
             # command for ns lookup. In that way, system checks is that rss's TCP/IP adress for is it exist
             # However there is an vulnerability for command line injection for input at the subproccess part
+            logger.info(f"api search parameter url: {target_url}")
             command = f"ping -c 4 {target_url}"
+
             # ping -c 4 python
             # print(target_url)
             # print("commands: ",command)
             output = subprocess.getoutput(command)
+            logger.info(f"api search output: {output}")
             # output = subprocess.run(command, shell=True, text=True, capture_output=True)
             return JsonResponse({"result": output}, status=200)
 
