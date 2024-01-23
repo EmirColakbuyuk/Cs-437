@@ -32,7 +32,7 @@ import logging
 from django.utils.dateparse import parse_datetime
 from .models import News
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('base.middleware')
 
 #that part saving news to database from api, it is good because api is so protective. If news stored in database, it is
 #very common case an also there can be a chance for SQL INJECTION and COMMAND LINE INJECTION
@@ -272,10 +272,12 @@ def newsDetail(request):
     if request.method == 'POST':
         comment_content = request.POST.get('comment')
         user = request.user
+        logger.info(f"Comment user and content: {user} - {comment_content}")
         current_time = datetime.datetime.now()
         sql = "INSERT INTO base_comment (news_link, user_id, created_at, content) VALUES ('%s', '%s', '%s', '%s')" % (news_link, user.id, current_time, comment_content)    
         with connection.cursor() as cursor:
             cursor.executescript(sql)
+
           
 
         return redirect(f'/newsDetail/?link={news_link}')

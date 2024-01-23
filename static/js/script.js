@@ -68,6 +68,7 @@ function extractDomain(url) {
 
 async function initNewsSearch() {
     $('#search-button').click(async function () {
+
         const fullUrl = $('#custom-url').val();
 
         if (fullUrl) {
